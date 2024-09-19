@@ -5,21 +5,14 @@ import numpy as np
 # Set page title
 st.title("Medical Insurance Charges Prediction App")
 
-# Sidebar for file uploads
-st.sidebar.header("Upload Model")
-
-# Upload the pickle file for the linear regression model
-uploaded_pickle_file = st.sidebar.file_uploader("Upload Linear Model Pickle File", type=["pkl"])
-
-# Function to load the linear model
-def load_model(pickle_file):
-    if pickle_file is not None:
-        loaded_model = pickle.load(pickle_file)
-        return loaded_model
-    return None
+# Load the pre-trained linear regression model from file
+def load_model():
+    with open('model.pkl', 'rb') as file:
+        loaded_model = pickle.load(file)
+    return loaded_model
 
 # Load the linear model
-model = load_model(uploaded_pickle_file)
+model = load_model()
 
 # Check if model is loaded
 if model is not None:
@@ -60,4 +53,4 @@ if model is not None:
         st.subheader(f"Predicted Insurance Charges: ₹{prediction_in_inr:,.2f} INR")
 
 else:
-    st.warning("Please upload the linear model to proceed.")
+    st.warning("Model not found.")
